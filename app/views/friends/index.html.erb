@@ -1,0 +1,34 @@
+<h1>Find Friends</h1>
+
+<div class="users-list">
+  <% @users.each do |user| %>
+    <div style="border: 1px solid #ccc; padding: 10px; margin: 10px 0; display: flex; align-items: center; justify-content: space-between;">
+      <div>
+        <strong><%= user.email %></strong>
+      </div>
+      
+      <div>
+        <% friendship = current_user.friendships.find_by(friend_id: user.id) %>
+        <% inverse_friend = Friend.find_by(user_id: user.id, friend_id: current_user.id) %>
+        
+        <% if friendship %>
+          <% if friendship.status == "pending" %>
+            <span style="color: orange; margin-right: 10px;">Request sent (pending)</span>
+          <% elsif friendship.status == "accepted" %>
+            <span style="color: green; margin-right: 10px;">✓ Friend</span>
+          <% end %>
+        <% elsif inverse_friend %>
+          <% if inverse_friend.status == "pending" %>
+            <span style="color: blue; margin-right: 10px;">This user wants to be friends</span>
+            <%= button_to "Accept", accept_friend_path(user.id), method: :patch, style: "background: green; color: white; padding: 5px 10px; border: none; border-radius: 3px; cursor: pointer; margin-right: 5px;" %>
+            <%= button_to "Reject", reject_friend_path(user.id), method: :delete, style: "background: red; color: white; padding: 5px 10px; border: none; border-radius: 3px; cursor: pointer;" %>
+          <% end %>
+        <% else %>
+          <%= button_to "Add Friend", add_friend_path(friend_id: user.id), method: :post, style: "background: blue; color: white; padding: 5px 10px; border: none; border-radius: 3px; cursor: pointer;" %>
+        <% end %>
+      </div>
+    </div>
+  <% end %>
+</div>
+
+<%= link_to "Back to Home", root_path, style: "display: inline-block; margin-top: 20px;" %>

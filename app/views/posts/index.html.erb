@@ -1,0 +1,21 @@
+<h1>Posts</h1>
+
+<div style="margin-bottom: 20px;">
+  <%= link_to "➕ Create New Post", new_post_path, style: "background: green; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px; display: inline-block;" %>
+</div>
+
+<% if @posts.any? %>
+  <div style="display: flex; flex-direction: column; gap: 15px;">
+    <% @posts.each do |post| %>
+      <div style="border: 1px solid #ccc; padding: 15px; border-radius: 5px; background-color: #f9f9f9;">
+        <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
+          <strong><%= post.user.email %></strong>
+          <span style="color: #666; font-size: 0.9em;"><%= time_ago_in_words(post.created_at) %> ago</span>
+        </div>
+        <p style="margin: 0; font-size: 1.1em;"><%= post.content %></p>
+      </div>
+    <% end %>
+  </div>
+<% else %>
+  <p>No posts yet. <%= link_to "Create the first post!", new_post_path %></p>
+<% end %>

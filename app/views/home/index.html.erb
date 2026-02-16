@@ -1,0 +1,30 @@
+<h1>Welcome to Lab Portal</h1>
+
+<% if user_signed_in? %>
+  <div style="margin-top: 20px;">
+    <h2>My Friends (<%= current_user.friends_list.count %>)</h2>
+    
+    <% if current_user.friends_list.any? %>
+      <ul style="list-style: none; padding: 0;">
+        <% current_user.friends_list.each do |friend| %>
+          <li style="padding: 10px; margin: 5px 0; background-color: #f0f0f0; border-radius: 5px; border-left: 4px solid green; display: flex; align-items: center; justify-content: space-between;">
+            <div>
+              <strong><%= friend.email %></strong>
+            </div>
+            <div>
+              <%= link_to "💬", "#", style: "background: #4267B2; color: white; padding: 5px 10px; text-decoration: none; border-radius: 3px; font-size: 14px;", title: "Send message" %>
+            </div>
+          </li>
+        <% end %>
+      </ul>
+    <% else %>
+      <p style="color: #666;">You don't have any friends yet.</p>
+    <% end %>
+    
+    <div style="margin-top: 30px;">
+      <%= link_to "🔍 Find New Friends", users_path, style: "background: blue; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px; display: inline-block;" %>
+    </div>
+  </div>
+<% else %>
+  <p>Please <%= link_to "sign up", new_user_registration_path %> or <%= link_to "log in", new_user_session_path %> to get started.</p>
+<% end %>
