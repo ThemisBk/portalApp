@@ -1,10 +1,10 @@
 Rails.application.routes.draw do
   root "home#index"
   
-  # Devise routes with OmniAuth
+  # Devise routes
   devise_for :users, controllers: { omniauth_callbacks: 'users/omniauth_callbacks' }
 
-  # Friend-related routes
+  # Friend routes
   resources :friendships, only: [:create, :update, :destroy]
   get "users", to: "friends#index"
   post "add_friend", to: "friends#add_friend"
